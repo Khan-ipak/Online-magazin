@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Каталог товаров</h2>
+<ul>
+    {% for product in products %}
+        <li>
+            <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a> - {{ product.price }}₽
+            <a href="{% url 'add_to_cart' product.id %}">Добавить в корзину</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ product.name }}</h2>
+<p>{{ product.description }}</p>
+<p>Цена: {{ product.price }}₽</p>
+<a href="{% url 'add_to_cart' product.id %}">Добавить в корзину</a>
+{% endblock %}
+
+
+{% extends "base.html" %}
+{% block content %}
+<h2>Корзина</h2>
+{% if order and order.product.all %}
+    <ul>
+        {% for item in order.product.all %}
+            <li>{{ item.name }} - {{ item.price }}₽</li>
+        {% endfor %}
+    </ul>
+    <p>Итого: {{ order.total_price }}₽</p>
+{% else %}
+    <p>Корзина пуста</p>
+{% endif %}
+{% endblock %}
